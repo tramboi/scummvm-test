@@ -18,37 +18,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL$
- * $Id$
+ * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/samsungtv/samsungtv.h $
+ * $Id: samsungtv.h 50481 2010-06-29 05:00:44Z vgvgf $
  *
  */
 
-#ifndef SDL_SAMSUNGTV_COMMON_H
-#define SDL_SAMSUNGTV_COMMON_H
+#ifndef PLATFORM_SDL_SAMSUNGTV_H
+#define PLATFORM_SDL_SAMSUNGTV_H
 
-#include <SDL.h>
+#include "backends/platform/sdl/posix/posix.h"
 
-#include "backends/base-backend.h"
-#include "backends/platform/sdl/sdl.h"
-
-#if defined(SAMSUNGTV)
-
-namespace Audio {
-	class MixerImpl;
-}
-
-class OSystem_SDL_SamsungTV : public OSystem_SDL {
+class OSystem_SDL_SamsungTV : public OSystem_POSIX {
 public:
+	OSystem_SDL_SamsungTV();
+
+	virtual void initBackend();
+
 	virtual bool hasFeature(Feature f);
 	virtual void setFeatureState(Feature f, bool enable);
 	virtual bool getFeatureState(Feature f);
 
 	virtual void fatalError();
-protected:
-
-	virtual bool remapKey(SDL_Event &ev, Common::Event &event);
+	virtual void quit();
 };
-
-#endif
 
 #endif

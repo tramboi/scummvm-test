@@ -18,18 +18,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL$
- * $Id$
+ * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/events/samsungtvsdl/samsungtvsdl-events.cpp $
+ * $Id: samsungtvsdl-events.cpp 50481 2010-06-29 05:00:44Z vgvgf $
  *
  */
 
-#include "backends/platform/samsungtv/samsungtv.h"
-#include "common/util.h"
-#include "common/events.h"
+#ifdef SAMSUNGTV
 
-#if defined(SAMSUNGTV)
+#include "backends/events/samsungtvsdl/samsungtvsdl-events.h"
 
-bool OSystem_SDL_SamsungTV::remapKey(SDL_Event &ev, Common::Event &event) {
+SamsungTVSdlEventManager::SamsungTVSdlEventManager(Common::EventSource *boss)
+	:
+	SdlEventManager(boss) {
+
+}
+
+bool SamsungTVSdlEventManager::remapKey(SDL_Event &ev, Common::Event &event) {
 	switch (ev.type) {
 		case SDL_KEYDOWN:{
 			if (ev.key.keysym.sym == SDLK_POWER) {
@@ -67,7 +71,8 @@ bool OSystem_SDL_SamsungTV::remapKey(SDL_Event &ev, Common::Event &event) {
 		}
 	}
 
-	return false;
+	// Invoke parent implementation of this method
+	return SdlEventManager::remapKey(ev, event);
 }
 
 #endif

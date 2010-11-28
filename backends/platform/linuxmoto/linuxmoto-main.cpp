@@ -18,29 +18,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL$
- * $Id$
+ * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/linuxmoto/linuxmoto-main.cpp $
+ * $Id: linuxmoto-main.cpp 50610 2010-07-03 00:25:06Z vgvgf $
  *
  */
-
-// Disable symbol overrides so that we can use system headers.
-#define FORBIDDEN_SYMBOL_ALLOW_ALL
-
-#include "common/scummsys.h"
-#include "common/system.h"
-
-#include <SDL/SDL.h>
-#include <SDL/SDL_syswm.h>
 
 #include "backends/platform/linuxmoto/linuxmoto-sdl.h"
 #include "base/main.h"
 
 int main(int argc, char *argv[]) {
+
+	// Create our OSystem instance
 	g_system = new OSystem_LINUXMOTO();
 	assert(g_system);
+
+	// Pre initialize the backend
+	((OSystem_POSIX *)g_system)->init();
+
 	// Invoke the actual ScummVM main entry point:
 	int res = scummvm_main(argc, argv);
-	g_system->quit();	// TODO: Consider removing / replacing this!
+
+	// Free OSystem
+	delete (OSystem_LINUXMOTO *)g_system;
 
 	return res;
 }

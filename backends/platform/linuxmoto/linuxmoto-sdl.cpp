@@ -18,51 +18,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL$
- * $Id$
+ * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/linuxmoto/linuxmoto-sdl.cpp $
+ * $Id: linuxmoto-sdl.cpp 50475 2010-06-29 01:21:30Z vgvgf $
  *
  */
 
 #include "backends/platform/linuxmoto/linuxmoto-sdl.h"
 
-void OSystem_LINUXMOTO::preprocessEvents(SDL_Event *event) {
-	if (event->type == SDL_ACTIVEEVENT) {
-		if (event->active.state == SDL_APPINPUTFOCUS && !event->active.gain) {
-			suspendAudio();
-			for (;;) {
-				if (!SDL_WaitEvent(event)) {
-					SDL_Delay(10);
-					continue;
-				}
-				if (event->type == SDL_QUIT)
-					return;
-				if (event->type != SDL_ACTIVEEVENT)
-					continue;
-				if (event->active.state == SDL_APPINPUTFOCUS && event->active.gain) {
-					resumeAudio();
-						return;
-				}
-			}
-		}
-	}
-}
+#include "backends/graphics/linuxmotosdl/linuxmotosdl-graphics.h"
+#include "backends/events/linuxmotosdl/linuxmotosdl-events.h"
 
-void OSystem_LINUXMOTO::suspendAudio() {
-	SDL_CloseAudio();
-	_audioSuspended = true;
-}
+void OSystem_LINUXMOTO::initBackend() {
+	// Create the backend custom managers
+	if (_eventManager == 0)
+		_eventManager = new LinuxmotoSdlEventManager(this);
 
-int OSystem_LINUXMOTO::resumeAudio() {
-	if (!_audioSuspended)
-		return -2;
-	if (SDL_OpenAudio(&_obtainedRate, NULL) < 0){
-		return -1;
-	}
-	SDL_PauseAudio(0);
-	_audioSuspended = false;
-	return 0;
-}
+	if (_graphicsManager == 0)
+		_graphicsManager = new LinuxmotoSdlGraphicsManager();
 
-void OSystem_LINUXMOTO::setupMixer() {
-	OSystem_SDL::setupMixer();
+	// Call parent implementation of this method
+	OSystem_POSIX::initBackend();
 }
