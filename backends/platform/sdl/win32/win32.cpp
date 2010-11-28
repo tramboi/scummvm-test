@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/sdl/win32/win32.cpp $
- * $Id: win32.cpp 50589 2010-07-02 06:44:42Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 
@@ -28,6 +28,9 @@
 #include <windows.h>
 #define WIN32_LEAN_AND_MEAN
 #undef ARRAYSIZE // winnt.h defines ARRAYSIZE, but we want our own one...
+
+// Disable symbol overrides so that we can use system headers.
+#define FORBIDDEN_SYMBOL_ALLOW_ALL
 
 #include "backends/platform/sdl/win32/win32.h"
 #include "backends/fs/windows/windows-fs-factory.h"
