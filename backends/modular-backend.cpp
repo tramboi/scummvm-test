@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/modular-backend.cpp $
- * $Id: modular-backend.cpp 53441 2010-10-13 17:58:48Z lordhoto $
+ * $URL$
+ * $Id$
  *
  */
 
@@ -40,13 +40,22 @@ ModularBackend::ModularBackend()
 }
 
 ModularBackend::~ModularBackend() {
+	delete _fsFactory;
+	_fsFactory = 0;
 	delete _graphicsManager;
+	_graphicsManager = 0;
 	delete _eventManager;
+	_eventManager = 0;
 	delete _mixer;
+	_mixer = 0;
 	delete _audiocdManager;
+	_audiocdManager = 0;
 	delete _savefileManager;
+	_savefileManager = 0;
 	delete _timerManager;
+	_timerManager = 0;
 	delete _mutexManager;
+	_mutexManager = 0;
 }
 
 bool ModularBackend::hasFeature(Feature f) {
