@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/graphics/opengl/glerrorcheck.h $
- * $Id: glerrorcheck.h 51050 2010-07-20 07:10:25Z fingolfin $
+ * $URL$
+ * $Id$
  *
  */
 

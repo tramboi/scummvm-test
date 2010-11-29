@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/events/symbiansdl/symbiansdl-events.cpp $
- * $Id: symbiansdl-events.cpp 50840 2010-07-13 04:31:15Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 

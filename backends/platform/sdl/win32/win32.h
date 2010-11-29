@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/sdl/win32/win32.h $
- * $Id: win32.h 50589 2010-07-02 06:44:42Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 

@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/mixer/symbiansdl/symbiansdl-mixer.cpp $
- * $Id: symbiansdl-mixer.cpp 50356 2010-06-26 23:05:37Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 

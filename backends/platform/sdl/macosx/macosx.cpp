@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/sdl/macosx/macosx.cpp $
- * $Id: macosx.cpp 50476 2010-06-29 01:59:10Z mthreepwood $
+ * $URL$
+ * $Id$
  *
  */
 

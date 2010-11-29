@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/graphics/symbiansdl/symbiansdl-graphics.h $
- * $Id: symbiansdl-graphics.h 50667 2010-07-05 01:10:29Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 

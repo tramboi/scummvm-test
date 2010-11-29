@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/mixer/doublebuffersdl/doublebuffersdl-mixer.cpp $
- * $Id: doublebuffersdl-mixer.cpp 50542 2010-07-01 06:07:24Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 

@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/platform/sdl/posix/posix.h $
- * $Id: posix.h 50364 2010-06-27 05:12:37Z vgvgf $
+ * $URL$
+ * $Id$
  *
  */
 
