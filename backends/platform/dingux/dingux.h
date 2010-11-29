@@ -28,7 +28,6 @@
 
 #if defined(DINGUX)
 
-#include <SDL.h>
 #include "backends/base-backend.h"
 #include "backends/platform/sdl/sdl.h"
 #include "backends/platform/sdl/posix/posix.h"

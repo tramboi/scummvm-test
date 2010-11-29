@@ -18,31 +18,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/mutex/sdl/sdl-mutex.cpp $
- * $Id: sdl-mutex.cpp 52029 2010-08-12 06:30:26Z vgvgf $
+ * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/events/sdl/sdl-events.h $
+ * $Id: sdl-events.h 53434 2010-10-13 15:42:33Z lordhoto $
  *
  */
 
-#if defined(SDL_BACKEND)
+#ifndef BACKEND_SDL_SYS_H
+#define BACKEND_SDL_SYS_H
 
-#include "backends/mutex/sdl/sdl-mutex.h"
-#include "backends/platform/sdl/sdl-sys.h"
+// Include the SDL headers, working around the fact that SDL_rwops.h
+// uses a FILE pointer in one place, which conflicts with common/forbidden.h
 
+#include "common/scummsys.h"
 
-OSystem::MutexRef SdlMutexManager::createMutex() {
-	return (OSystem::MutexRef) SDL_CreateMutex();
-}
+// Remove FILE override from common/forbidden.h, and replace
+// it with an alternate slightly less unfriendly override.
+#undef FILE
+typedef struct { int FAKE; } FAKE_FILE;
+#define FILE FAKE_FILE
 
-void SdlMutexManager::lockMutex(OSystem::MutexRef mutex) {
-	SDL_mutexP((SDL_mutex *) mutex);
-}
+#if defined(__SYMBIAN32__)
+#include <esdl\SDL.h>
+#else
+#include <SDL.h>
+#endif
 
-void SdlMutexManager::unlockMutex(OSystem::MutexRef mutex) {
-	SDL_mutexV((SDL_mutex *) mutex);
-}
-
-void SdlMutexManager::deleteMutex(OSystem::MutexRef mutex) {
-	SDL_DestroyMutex((SDL_mutex *) mutex);
-}
+// Finally forbid FILE again
+#undef FILE 
+#define FILE	FORBIDDEN_SYMBOL_REPLACEMENT
 
 #endif
