@@ -18,8 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * $URL: https://scummvm.svn.sourceforge.net/svnroot/scummvm/scummvm/branches/gsoc2010-opengl/backends/graphics/sdl/sdl-graphics.cpp $
- * $Id: sdl-graphics.cpp 53730 2010-10-23 09:30:26Z hkz $
+ * $URL$
+ * $Id$
  *
  */
 
@@ -201,6 +201,12 @@ SdlGraphicsManager::~SdlGraphicsManager() {
 		g_system->getEventManager()->getEventDispatcher()->unregisterObserver(this);
 
 	unloadGFXMode();
+		if (_mouseSurface)
+			SDL_FreeSurface(_mouseSurface);
+	_mouseSurface = 0;
+		if (_mouseOrigSurface)
+			SDL_FreeSurface(_mouseOrigSurface);
+	_mouseOrigSurface = 0;
 	g_system->deleteMutex(_graphicsMutex);
 
 	free(_currentPalette);
