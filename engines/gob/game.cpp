@@ -46,6 +46,7 @@ namespace Gob {
 Environments::Environments(GobEngine *vm) : _vm(vm) {
 	for (uint i = 0; i < kEnvironmentCount; i++) {
 		Environment &e = _environments[i];
+		Media       &m = _media[i];
 
 		e.cursorHotspotX = 0;
 		e.cursorHotspotY = 0;
@@ -53,6 +54,9 @@ Environments::Environments(GobEngine *vm) : _vm(vm) {
 		e.script         = 0;
 		e.resources      = 0;
 		e.curTotFile[0]  = '\0';
+
+		for (int j = 0; j < 17; j++)
+			m.fonts[j] = 0;
 	}
 }
 
@@ -86,6 +90,9 @@ void Environments::clear() {
 		if (!has(_environments[i].resources, i + 1))
 			delete _environments[i].resources;
 	}
+
+	for (uint i = 0; i < kEnvironmentCount; i++)
+		clearMedia(i);
 }
 
 void Environments::set(uint8 env) {
@@ -163,6 +170,82 @@ bool Environments::has(Resources *resources, uint8 startEnv, int16 except) const
 	}
 
 	return false;
+}
+
+bool Environments::clearMedia(uint8 env) {
+	if (env >= kEnvironmentCount)
+		return false;
+
+	Media &m = _media[env];
+
+	for (int i = 0; i < 10; i++)
+		m.sprites[i].reset();
+
+	for (int i = 0; i < 10; i++)
+		m.sounds[i].free();
+
+	for (int i = 0; i < 17; i++) {
+		delete m.fonts[i];
+		m.fonts[i] = 0;
+	}
+
+	return true;
+}
+
+bool Environments::setMedia(uint8 env) {
+	if (env >= kEnvironmentCount)
+		return false;
+
+	clearMedia(env);
+
+	Media &m = _media[env];
+
+	for (int i = 0; i < 10; i++) {
+		m.sprites[i] = _vm->_draw->_spritesArray[i];
+		_vm->_draw->_spritesArray[i].reset();
+	}
+
+	for (int i = 0; i < 10; i++) {
+		SoundDesc *sound = _vm->_sound->sampleGetBySlot(i);
+		if (sound)
+			m.sounds[i].swap(*sound);
+	}
+
+	int n = MIN(Draw::kFontCount, 17);
+	for (int i = 0; i < n; i++) {
+		m.fonts[i] = _vm->_draw->_fonts[i];
+		_vm->_draw->_fonts[i] = 0;
+	}
+
+	return true;
+}
+
+bool Environments::getMedia(uint8 env) {
+	if (env >= kEnvironmentCount)
+		return false;
+
+	Media &m = _media[env];
+
+	for (int i = 0; i < 10; i++) {
+		_vm->_draw->_spritesArray[i] = m.sprites[i];
+		m.sprites[i].reset();
+	}
+
+	for (int i = 0; i < 10; i++) {
+		SoundDesc *sound = _vm->_sound->sampleGetBySlot(i);
+		if (sound)
+			m.sounds[i].swap(*sound);
+		m.sounds[i].free();
+	}
+
+	int n = MIN(Draw::kFontCount, 17);
+	for (int i = 0; i < n; i++) {
+		delete _vm->_draw->_fonts[i];
+		_vm->_draw->_fonts[i] = m.fonts[i];
+		m.fonts[i]= 0;
+	}
+
+	return true;
 }
 
 
@@ -562,13 +645,20 @@ void Game::start() {
 void Game::totSub(int8 flags, const char *newTotFile) {
 	int8 curBackupPos;
 
-	if ((flags == 16) || (flags == 17))
-		warning("Urban Stub: Game::totSub(), flags == %d", flags);
+	if ((flags == 16) || (flags == 17)) {
+		// Prefetch tot data + delete prefetched data
+		return;
+	}
 
 	if (_numEnvironments >= Environments::kEnvironmentCount)
 		error("Game::totSub(): Environments overflow");
 
 	_environments->set(_numEnvironments);
+
+	if (flags == 18) {
+		warning("Backuping media to %d", _numEnvironments);
+		_environments->setMedia(_numEnvironments);
+	}
 
 	curBackupPos = _curEnvironment;
 	_numEnvironments++;
@@ -578,9 +668,9 @@ void Game::totSub(int8 flags, const char *newTotFile) {
 	_resources = new Resources(_vm);
 
 	if (flags & 0x80)
-		warning("Urban Stub: Game::totSub(), flags & 0x80");
+		warning("Addy Stub: Game::totSub(), flags & 0x80");
 
-	if (flags & 1)
+	if (flags & 5)
 		_vm->_inter->_variables = 0;
 
 	Common::strlcpy(_curTotFile, newTotFile, 10);
@@ -591,9 +681,10 @@ void Game::totSub(int8 flags, const char *newTotFile) {
 		return;
 	}
 
-	_hotspots->push(0, true);
+	if (!(flags & 0x20))
+		_hotspots->push(0, true);
 
-	if (flags & 2)
+	if ((flags == 18) || (flags & 0x06))
 		playTot(-1);
 	else
 		playTot(0);
@@ -601,18 +692,26 @@ void Game::totSub(int8 flags, const char *newTotFile) {
 	if (_vm->_inter->_terminate != 2)
 		_vm->_inter->_terminate = 0;
 
-	_hotspots->clear();
-	_hotspots->pop();
-
-	if ((flags & 1) && _vm->_inter->_variables) {
-		_vm->_inter->delocateVars();
+	if (!(flags & 0x20)) {
+		_hotspots->clear();
+		_hotspots->pop();
 	}
+
+	if ((flags & 5) && _vm->_inter->_variables)
+		_vm->_inter->delocateVars();
 
 	clearUnusedEnvironment();
 
 	_numEnvironments--;
 	_curEnvironment = curBackupPos;
 	_environments->get(_numEnvironments);
+
+	if (flags == 18) {
+		warning("Restoring media from %d", _numEnvironments);
+		_environments->getMedia(_numEnvironments);
+	}
+
+	_vm->_global->_inter_animDataSize = _script->getAnimDataSize();
 }
 
 void Game::switchTotSub(int16 index, int16 skipPlay) {
