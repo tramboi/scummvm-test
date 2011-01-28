@@ -489,7 +489,7 @@ void ROQPlayer::processBlockQuadVectorBlockSub(int baseX, int baseY, int8 Mx, in
 bool ROQPlayer::processBlockStill(ROQBlockHeader &blockHeader) {
 	debugC(5, kGroovieDebugVideo | kGroovieDebugAll, "Groovie::ROQ: Processing still (JPEG) block");
 
-	warning("Groovie::ROQ: JPEG frame (unfinshed)");
+	warning("Groovie::ROQ: JPEG frame (unfinished)");
 
 	Graphics::JPEG *jpg = new Graphics::JPEG();
 	jpg->read(_file);
